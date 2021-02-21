@@ -84,7 +84,7 @@ func (c *Conn) DoCommand(method string, url string, args map[string]interface{},
 		jsonErr := json.Unmarshal(body, &response)
 		if jsonErr == nil {
 			if res_err, ok := response["error"]; ok {
-				status, _ := response["status"]
+				status := response["status"]
 				return body, ESError{time.Now(), fmt.Sprintf("Error [%s] Status [%v]", res_err, status), httpStatusCode}
 			}
 		}
@@ -131,7 +131,7 @@ func (c *Conn) Exists(index string, _type string, id string, args map[string]int
 	httpStatusCode, body, err = req.Do(&response)
 	if httpStatusCode > 304 {
 		if error, ok := response["error"]; ok {
-			status, _ := response["status"]
+			status := response["status"]
 			log.Printf("Error: %v (%v)\n", error, status)
 		}
 	} else {
